@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% load static %}
+{% block reportactive %}active{% endblock reportactive %}
+{% block title %} Reports {% endblock title %} 
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'reports.css' %}">
+    <title>Available Reports</title>
+</head>
+<body>
+    <div class="report-section">
+        <h2>Found Items
+            <form method="GET" action="{% url 'available_reports' %}" style="display: inline;">
+                <input type="text" name="search" class="search-bar" placeholder="Search..." value="{{ search_query }}">
+                <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
+            </form>
+        </h2>
+        {% if found_reports %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item Name</th>
+                    <th>Location Found</th>
+                    <th>Photo</th>
+                    <th>Date Found</th>
+                    <th>Reported By</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in found_reports %}
+                <tr>
+                    <td>{{ report.id }}</td>
+                    <td>{{ report.item_name }}</td>
+                    <td>{{ report.location_found }}</td>
+                    <td>
+                        {% if report.photo %}
+                            <img src="{{ report.photo.url }}" alt="Photo of {{ report.item_name }}">
+                        {% else %}
+                            <p>No photo available</p>
+                        {% endif %}
+                    </td>
+                    <td>{{ report.date_found }}</td>
+                    <td>{{ report.name }}</td>
+                    <td>
+                    <button class="claim-btn">Claim</button>
+                    <button class="claim-btn">Details</button>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No found items reported.</p>
+        {% endif %}
+    </div>
+
+    <div class="report-section">
+        <h2>Lost Items
+            <form method="GET" action="{% url 'available_reports' %}" style="display: inline;">
+                <input type="text" name="search" class="search-bar" placeholder="Search..." value="{{ search_query }}">
+                <button type="submit" class="search-icon"><i class="fa fa-search"></i></button>
+            </form>
+        </h2>
+        {% if lost_reports %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Item Name</th>
+                    <th>Location Lost</th>
+                    <th>Photo</th>
+                    <th>Date Reported</th>
+                    <th>Reported By</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in lost_reports %}
+                <tr>
+                    <td>{{ report.id }}</td>
+                    <td>{{ report.item_name }}</td>
+                    <td>{{ report.location_lost }}</td>
+                    <td>
+                        {% if report.photo %}
+                            <img src="{{ report.photo.url }}" alt="Photo of {{ report.item_name }}">
+                        {% else %}
+                            <p>No photo available</p>
+                        {% endif %}
+                    </td>
+                    <td>{{ report.date_lost }}</td>
+                    <td>{{ report.name }}</td>
+                    <td>
+                        <button class="claim-btn">Claim</button>
+                        <button class="claim-btn">Details</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No lost items found.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+{% endblock body %}

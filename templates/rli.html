@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{%load static %}
+{% comment %} {% block aboutactive %}active{% endblock aboutactive %} {% endcomment %}
+{% block title %} Report Lost Item{% endblock title %}  
+{% block body %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Item Report Form</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'rli.css' %}">
+
+</head>
+<body>
+
+    <form action="{% url 'rli' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Renders the form fields -->
+            <fieldset>
+            <h1 style = "font-color = white; text-align: center; margin-top: 20px; "><b>Lost Item Report Form</b></h1>
+            </fieldset>
+            <fieldset>
+		<label style="display: block; text-align: center; margin-top: 20px; font-size: 20px;">Contact Information:</label>
+                <label for="name"><i class="fas fa-user"></i> Name:</label>
+                <input type="text" id="name" name="name" value="{{ user.first_name }}" placeholder="Enter your name" required>
+                <label for="email"><i class="fas fa-envelope"></i> Email Address:</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" placeholder="Enter your email" required>
+                <label for="phone"><i class="fas fa-phone"></i> Phone Number:</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </fieldset>
+
+            <fieldset>
+                <label style="display: block; text-align: center; margin-top: 20px; font-size: 20px;">Item Information:</label>
+                <label for="item_name"><i class="fas fa-tag"></i> Item Name/Description:</label>
+                <input type="text" id="item_name" name="item_name" placeholder="Enter lost item description" required>
+                <label for="item_type"><i class="fas fa-box"></i> Type of Item:</label>
+                <select id="item_type" name="item_type">
+                    <option value="">Select Type</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Jewelry">Jewelry</option>
+                    <option value="Documents">Documents</option>
+                    <option value="Other">Other</option>
+                </select>
+                <label for="color"><i class="fas fa-paint-brush"></i> Color:</label>
+                <input type="text" id="color" name="color">
+                <label for="brand"><i class="fas fa-tag"></i> Brand/Make:</label>
+                <input type="text" id="brand" name="brand">
+                <label for="date_lost"><i class="fas fa-calendar-alt"></i> Date Lost:</label>
+                <input type="date" id="date_lost" name="date_lost">
+                <label for="location_lost"><i class="fas fa-map-marker-alt"></i> Location Lost:</label>
+                <input type="text" id="location_lost" name="location_lost" placeholder='e.g., park or store name' required>
+                <label for="details"><i class="fas fa-info-circle"></i> Additional Details:</label>
+                <textarea id="details" name="details" rows="4" spellcheck = "true" placeholder='e.g., any distinguishing features...' required></textarea>
+                <label for="photo"><i class="fas fa-upload"></i> Upload Photo (optional):</label>
+                <input type='file' id='photo' name='photo'>
+            </fieldset>
+
+            <fieldset>
+                <label style="display: block; text-align: center; margin-top: 20px; font-size: 20px;">Verification:</label>
+                <div class='captcha-placeholder'><i class='fas fa-shield-alt'></i> [Captcha Field]</div>
+            </fieldset>
+
+            <button type="submit" style="background-color:black; color:white; border:none; padding:12px 20px; border-radius:5px; cursor:pointer; font-size:16px; position:relative; overflow:hidden; width:100%; margin-top:10px; transition: all 0.3s ease;" 
+        onclick="this.style.transform='scale(0.95)'; setTimeout(() => { this.style.transform='scale(1)'; }, 150);">
+    Submit
+</button>
+
+        </form>
+    </div>
+</body>
+</html>
+
+
+{% endblock body %}
